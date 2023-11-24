@@ -1,0 +1,109 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "EPLF GO Container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "remoteUser": "developer",
+  "containerUser": "developer",
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder}/../,target=/workspace,type=bind,consistency=cached",
+  // host paths must exist previously e.g. mkdir -p ~/.cache/pnpm ~/.cache/go/build ~/.cache/go/pkg
+  "mounts": [
+    "source=${localEnv:HOME}/.cache/pnpm,target=/pnpm/store,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.cache/go/build,target=/home/developer/.cache/go-build,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.cache/go/pkg,target=/go/pkg/mod/,type=bind,consistency=cached"
+  ],
+  "forwardPorts": [
+    3000,
+    3001
+  ],
+  "containerEnv": {
+    "GOROOT": "/usr/local/go",
+    "GOPATH": "/go",
+    //    "PATH": "/usr/local/go/bin:/go/bin:${PATH}",
+    "CGO_ENABLED": "0",
+    "GO111MODULE": "off"
+  },
+  "capAdd": [
+    "SYS_PTRACE"
+  ],
+  "securityOpt": [
+    "seccomp=unconfined"
+  ],
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {
+        "go.toolsManagement.checkForUpdates": "local",
+        "go.useLanguageServer": true,
+        "go.gopath": "/go"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "golang.Go",
+        "ms-azuretools.vscode-docker",
+        "EditorConfig.EditorConfig",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "ms-vscode.remote-explorer",
+        "MS-SarifVSCode.sarif-viewer",
+        "foxundermoon.shell-format",
+        "redhat.vscode-yaml",
+        "kokakiwi.vscode-just",
+        "robocorp.robotframework-lsp"
+      ]
+    }
+  },
+  "overrideFeatureInstallOrder": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/rocker-org/devcontainer-features/apt-packages",
+    "ghcr.io/devcontainers/features/go",
+    "ghcr.io/azutake/devcontainer-features/go-packages-install",
+    "ghcr.io/wxw-matt/devcontainer-features/command_runner",
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "upgradePackages": true,
+      "username": "developer",
+      "userUid": "6666",
+      "userGid": "6666",
+      "nonFreePackages": true,
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "installOhMyZshConfig": true
+    },
+    "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+      "packages": [
+        "curl",
+        "wget",
+        "nano",
+        "gcc",
+        "g++",
+        "build-essential",
+        "git",
+        "python3",
+        "python3-pip",
+        "gpg"
+      ],
+    },
+    "ghcr.io/devcontainers-contrib/features/argo-cd:1": {},
+    "ghcr.io/devcontainers/features/go:1.2.2": {
+      "version": "latest"
+    },
+    "ghcr.io/guiyomh/features/just:0": {},
+    "ghcr.io/devcontainers-contrib/features/go-task:1": {},
+    //    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+    //      "dockerDashComposeVersion": "v2",
+    //      "moby": false,
+    //      "installDockerBuildx": true
+    //    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "dockerDashComposeVersion": "v2",
+      "moby": false,
+      "installDockerBuildx": true,
+    },
+    "ghcr.io/azutake/devcontainer-features/go-packages-install:0": {
+      "PACKAGES": "github.com/go-delve/delve/cmd/dlv@latest,golang.org/x/vuln/cmd/govulncheck@latest,github.com/mgechev/revive@latest,github.com/golangci/golangci-lint/cmd/golangci-lint@v1.55.2,github.com/securego/gosec/v2/cmd/gosec@latest,github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest,github.com/google/wire/cmd/wire@v0.5.0,github.com/vektra/mockery/v2@latest"
+    },
+  },
+}
