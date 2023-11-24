@@ -4,8 +4,8 @@
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
   "remoteUser": "developer",
   "containerUser": "developer",
-  "workspaceFolder": "/workspace",
-  "workspaceMount": "source=./,target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "",
+  "workspaceMount": "source=./,target=/home/developer,type=bind,consistency=cached",
   // host paths must exist previously e.g. mkdir -p ~/.cache/pnpm ~/.cache/go/build ~/.cache/go/pkg
   "mounts": [
     "source=${localEnv:HOME}/.cache/pnpm,target=/pnpm/store,type=bind,consistency=cached",
